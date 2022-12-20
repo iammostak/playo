@@ -11,6 +11,9 @@ function Navbar() {
          boxShadow={"md"}
          align={"center"}
          justify={"space-between"}
+         pos={"sticky"}
+         top={0}
+         zIndex={24}
       >
          <Heading size={"lg"} as={NavLink} to="/">
             🅿🅻🅰🆈🅾
