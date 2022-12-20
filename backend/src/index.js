@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const Connect = require("./config/db");
+const UserRoutes = require("./routes/user.routes");
 
 require("dotenv").config("cors");
 const port = process.env.PORT || 8080;
@@ -10,6 +11,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use("/user", UserRoutes);
 
 app.get("/", (req, res) => res.send("Welcome to playo server!"));
 
