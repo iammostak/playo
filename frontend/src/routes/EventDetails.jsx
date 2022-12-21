@@ -19,8 +19,6 @@ function EventDetails() {
    const { id } = useParams();
    const navigate = useNavigate();
 
-   console.log(event);
-
    useEffect(() => {
       dispatch(getByIdEventAction(id));
    }, []);

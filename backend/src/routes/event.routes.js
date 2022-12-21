@@ -4,9 +4,17 @@ const EventModel = require("../models/event.model");
 const app = express.Router();
 
 app.get("/", async (req, res) => {
+   const { filter } = req.query;
    try {
-      const events = await EventModel.find().populate("organizer");
-      res.send({ events });
+      if (!filter) {
+         const events = await EventModel.find().populate("organizer");
+         res.send({ events });
+      } else {
+         const events = await EventModel.find({ gameType: filter }).populate(
+            "organizer"
+         );
+         res.send({ events });
+      }
    } catch (err) {
       res.send({ message: err });
    }

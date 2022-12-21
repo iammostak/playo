@@ -19,6 +19,10 @@ function Home() {
    const { events } = useSelector((store) => store.event);
    const dispatch = useDispatch();
 
+   const handleFilter = (event) => {
+      dispatch(getEventsAction(event.target.value));
+   };
+
    useEffect(() => {
       dispatch(getEventsAction());
    }, []);
@@ -43,7 +47,7 @@ function Home() {
             <Button w={40} colorScheme={"blue"}>
                Search
             </Button>
-            <Select bg={"white"}>
+            <Select bg={"white"} onChange={handleFilter}>
                <option value="">Filter by Game</option>
                <option value="Football">Football</option>
                <option value="Cricket">Cricket</option>

@@ -9,15 +9,17 @@ import {
 
 const api = "https://playo-omega.vercel.app";
 
-export const getEventsAction = () => async (dispatch) => {
-   dispatch({ type: EVENT_LOADING });
-   try {
-      let res = await axios.get(`${api}/event`);
-      dispatch({ type: EVENT_GET, payload: res.data.events });
-   } catch (err) {
-      dispatch({ type: EVENT_ERROR });
-   }
-};
+export const getEventsAction =
+   (query = "") =>
+   async (dispatch) => {
+      dispatch({ type: EVENT_LOADING });
+      try {
+         let res = await axios.get(`${api}/event?filter=${query}`);
+         dispatch({ type: EVENT_GET, payload: res.data.events });
+      } catch (err) {
+         dispatch({ type: EVENT_ERROR });
+      }
+   };
 
 export const postEventAction = (data) => async (dispatch) => {
    dispatch({ type: EVENT_LOADING });
