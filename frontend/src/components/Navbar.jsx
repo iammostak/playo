@@ -1,7 +1,16 @@
 import { Button, Flex, Heading, HStack } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { logoutAction } from "../store/auth/auth.actions";
 
 function Navbar() {
+   const { isAuth } = useSelector((store) => store.auth);
+   const dispatch = useDispatch();
+
+   const handleLogout = () => {
+      dispatch(logoutAction());
+   };
+
    return (
       <Flex
          py={4}
@@ -18,20 +27,37 @@ function Navbar() {
          <Heading size={"lg"} as={NavLink} to="/">
             🅿🅻🅰🆈🅾
          </Heading>
-         <HStack spacing={4}>
-            <Button as={NavLink} to="/login" px={7} borderRadius={"3xl"}>
-               Login
-            </Button>
-            <Button
-               as={NavLink}
-               to="/signup"
-               px={7}
-               colorScheme={"blue"}
-               borderRadius={"3xl"}
-            >
-               Signup
-            </Button>
-         </HStack>
+         {!isAuth ? (
+            <HStack spacing={4}>
+               <Button as={NavLink} to="/login" px={7} borderRadius={"3xl"}>
+                  Login
+               </Button>
+               <Button
+                  as={NavLink}
+                  to="/signup"
+                  px={7}
+                  colorScheme={"blue"}
+                  borderRadius={"3xl"}
+               >
+                  Signup
+               </Button>
+            </HStack>
+         ) : (
+            <HStack spacing={4}>
+               <Button onClick={handleLogout} px={7} borderRadius={"3xl"}>
+                  Logout
+               </Button>
+               <Button
+                  as={NavLink}
+                  to="/create"
+                  px={7}
+                  colorScheme={"blue"}
+                  borderRadius={"3xl"}
+               >
+                  Create Event
+               </Button>
+            </HStack>
+         )}
       </Flex>
    );
 }
