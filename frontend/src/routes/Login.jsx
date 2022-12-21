@@ -41,7 +41,7 @@ function Login() {
             navigate("/");
          } else {
             toast({
-               title: "Login failed, please try again",
+               title: "Invalid Credential!",
                status: "error",
                duration: 3000,
                isClosable: true,
@@ -109,9 +109,7 @@ function Login() {
             fontFamily={"Helvetica"}
             letterSpacing={0.5}
             onClick={handleSubmit}
-            disabled={
-               !formData.username || !formData.password
-            }
+            disabled={!formData.username || !formData.password}
          >
             SUBMIT
          </Button>
