@@ -7,6 +7,8 @@ const EventSchema = new Schema({
    playerLimit: { type: Number, required: true },
    gameType: { type: String, required: true },
    organizer: { type: Schema.Types.ObjectId, ref: "user" },
+   pending: [{ type: Schema.Types.ObjectId, ref: "user" }],
+   accepted: [{ type: Schema.Types.ObjectId, ref: "user" }],
 });
 
 const EventModel = model("event", EventSchema);
