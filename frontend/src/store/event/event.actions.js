@@ -41,3 +41,39 @@ export const getByIdEventAction = (id) => async (dispatch) => {
       dispatch({ type: EVENT_ERROR });
    }
 };
+
+export const joinEventAction = (data) => async (dispatch) => {
+   dispatch({ type: EVENT_LOADING });
+   try {
+      let res = await axios.post(`${api}/event/join`, data);
+      dispatch({ type: EVENT_GET, payload: res.data.events });
+      return true;
+   } catch (err) {
+      dispatch({ type: EVENT_ERROR });
+      return false;
+   }
+};
+
+export const acceptEventAction = (data) => async (dispatch) => {
+   dispatch({ type: EVENT_LOADING });
+   try {
+      let res = await axios.post(`${api}/event/accept`, data);
+      dispatch({ type: EVENT_GET, payload: res.data.events });
+      return true;
+   } catch (err) {
+      dispatch({ type: EVENT_ERROR });
+      return false;
+   }
+};
+
+export const rejectEventAction = (data) => async (dispatch) => {
+   dispatch({ type: EVENT_LOADING });
+   try {
+      let res = await axios.post(`${api}/event/reject`, data);
+      dispatch({ type: EVENT_GET, payload: res.data.events });
+      return true;
+   } catch (err) {
+      dispatch({ type: EVENT_ERROR });
+      return false;
+   }
+};

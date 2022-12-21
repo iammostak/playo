@@ -6,18 +6,49 @@ import {
    HStack,
    Tag,
    Text,
+   useToast,
    VStack,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getByIdEventAction } from "../store/event/event.actions";
+import {
+   getByIdEventAction,
+   joinEventAction,
+} from "../store/event/event.actions";
 
 function EventDetails() {
    const { event } = useSelector((store) => store.event);
+   const { user } = useSelector((store) => store.auth);
    const dispatch = useDispatch();
    const { id } = useParams();
    const navigate = useNavigate();
+   const toast = useToast();
+
+   const handleJoin = () => {
+      dispatch(joinEventAction({ eventId: event._id, userId: user._id })).then(
+         (res) => {
+            if (res) {
+               toast({
+                  title: "Joining request sent",
+                  status: "success",
+                  duration: 3000,
+                  isClosable: true,
+                  position: "top",
+               });
+               dispatch(getByIdEventAction(id));
+            } else {
+               toast({
+                  title: "Something went wrong, please try again",
+                  status: "error",
+                  duration: 3000,
+                  isClosable: true,
+                  position: "top",
+               });
+            }
+         }
+      );
+   };
 
    useEffect(() => {
       dispatch(getByIdEventAction(id));
@@ -40,7 +71,7 @@ function EventDetails() {
             </Heading>
             <HStack>
                <Tag size={"md"} bg={"blue.50"} color={"blue.500"}>
-                  Organizer - @{event.username}
+                  Organizer - @{event.organizer.username}
                </Tag>
                <Tag size={"md"} bg={"green.50"} color={"green.500"}>
                   {event.startAt.split("T")[0]}
@@ -57,7 +88,10 @@ function EventDetails() {
             </Text>
             <HStack>
                <Button size={"md"} colorScheme={"blue"} borderRadius={"3xl"}>
-                  00 / {event.playerLimit}
+                  {event.accepted.length < 10
+                     ? "0" + event.accepted.length
+                     : event.accepted.length}{" "}
+                  / {event.playerLimit}
                </Button>
                <Button
                   size={"md"}
@@ -69,7 +103,13 @@ function EventDetails() {
                >
                   <ArrowBackIcon />
                </Button>
-               <Button size="md" colorScheme={"blue"} borderRadius={"3xl"}>
+               <Button
+                  size="md"
+                  colorScheme={"blue"}
+                  borderRadius={"3xl"}
+                  disabled={event.organizer._id === user._id}
+                  onClick={handleJoin}
+               >
                   Join event
                </Button>
             </HStack>

@@ -7,9 +7,12 @@ import {
    Text,
    VStack,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function EventCard(event) {
+   const { user } = useSelector((store) => store.auth);
+
    return (
       <HStack
          px={7}
@@ -73,9 +76,17 @@ function EventCard(event) {
          </HStack>
          <VStack>
             <Tag size={"md"} bg={"green.50"} color={"green.500"}>
-               00 / {event.playerLimit}
+               {event.accepted.length < 10
+                  ? "0" + event.accepted.length
+                  : event.accepted.length}{" "}
+               / {event.playerLimit}
             </Tag>
-            <Button size="md" colorScheme={"blue"} borderRadius={"3xl"}>
+            <Button
+               size="md"
+               colorScheme={"blue"}
+               borderRadius={"3xl"}
+               disabled={event.organizer._id === user._id}
+            >
                Join event
             </Button>
          </VStack>

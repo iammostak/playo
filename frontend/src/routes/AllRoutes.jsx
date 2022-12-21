@@ -4,6 +4,7 @@ import CreateEvent from "./CreateEvent";
 import EventDetails from "./EventDetails";
 import Home from "./Home";
 import Login from "./Login";
+import Requests from "./Requests";
 import Signup from "./Signup";
 
 function AllRoutes() {
@@ -30,6 +31,14 @@ function AllRoutes() {
             element={
                <PrivateRoute>
                   <CreateEvent />
+               </PrivateRoute>
+            }
+         />
+         <Route
+            path="/requests"
+            element={
+               <PrivateRoute>
+                  <Requests />
                </PrivateRoute>
             }
          />
