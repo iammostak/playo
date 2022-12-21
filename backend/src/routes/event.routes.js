@@ -10,7 +10,11 @@ app.get("/", async (req, res) => {
          const events = await EventModel.find().populate("organizer");
          res.send({ events });
       } else {
-         const events = await EventModel.find({ gameType: filter }).populate(
+         let query = filter.toLowerCase().split("");
+         query[0] = query[0].toUpperCase();
+         query = query.join("");
+
+         const events = await EventModel.find({ gameType: query }).populate(
             "organizer"
          );
          res.send({ events });
