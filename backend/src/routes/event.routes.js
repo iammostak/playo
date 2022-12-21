@@ -107,4 +107,29 @@ app.post("/accept", async (req, res) => {
    }
 });
 
+app.post("/reject", async (req, res) => {
+   const { eventId, userId } = req.body;
+   try {
+      let event = await EventModel.findOne({
+         _id: eventId,
+         pending: { $all: [userId] },
+      });
+
+      if (event) {
+         event = await EventModel.updateOne(
+            { _id: eventId },
+            { $pull: { pending: { $all: [userId] } } }
+         );
+      }
+
+      const events = await EventModel.find()
+         .populate("organizer")
+         .populate("accepted")
+         .populate("pending");
+      res.send({ events });
+   } catch (err) {
+      res.status(400).send({ message: err });
+   }
+});
+
 module.exports = app;
