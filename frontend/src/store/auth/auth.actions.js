@@ -7,7 +7,19 @@ import {
 } from "./auth.types";
 import axios from "axios";
 
-const api = "https://playo-omega.vercel.app/";
+const api = "https://playo-omega.vercel.app";
+
+export const signupAction = (data) => async (dispatch) => {
+   dispatch({ type: AUTH_LOADING });
+   try {
+      let res = await axios.post(`${api}/user/register`, data);
+      dispatch({ type: AUTH_SIGNUP_SUCCESS });
+      return res.data.message;
+   } catch (err) {
+      dispatch({ type: AUTH_ERROR });
+      return false;
+   }
+};
 
 export const loginAction = (data) => async (dispatch) => {
    dispatch({ type: AUTH_LOADING });
@@ -15,26 +27,12 @@ export const loginAction = (data) => async (dispatch) => {
       let res = await axios.post(`${api}/user/login`, data);
       dispatch({
          type: AUTH_LOGIN_SUCCESS,
-         token: res.data.token,
-         user: res.data.user,
+         payload: {
+            token: res.data.token,
+            user: res.data.user,
+         },
       });
-      return true;
-   } catch (err) {
-      dispatch({ type: AUTH_ERROR });
-      return false;
-   }
-};
-
-export const signupAction = (data) => async (dispatch) => {
-   dispatch({ type: AUTH_LOADING });
-   try {
-      let res = await axios.post(`${api}/user/register`, data);
-      dispatch({
-         type: AUTH_SIGNUP_SUCCESS,
-         token: res.data.token,
-         user: res.data.user,
-      });
-      return true;
+      return res.data.message;
    } catch (err) {
       dispatch({ type: AUTH_ERROR });
       return false;

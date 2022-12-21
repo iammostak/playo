@@ -45,9 +45,6 @@ export const authReducer = (state = initState, { type, payload }) => {
             ...state,
             loading: false,
             error: false,
-            isAuth: true,
-            token: payload.token,
-            user: payload.user,
          };
       }
       case AUTH_LOGOUT: {
