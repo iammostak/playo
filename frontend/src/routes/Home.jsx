@@ -10,7 +10,7 @@ import {
    Text,
    VStack,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EventCard from "../components/EventCard";
 import { getEventsAction } from "../store/event/event.actions";
@@ -18,6 +18,12 @@ import { getEventsAction } from "../store/event/event.actions";
 function Home() {
    const { events } = useSelector((store) => store.event);
    const dispatch = useDispatch();
+   const [query, setQuery] = useState("");
+
+   const handleSearch = () => {
+      dispatch(getEventsAction(query));
+      setQuery("");
+   };
 
    const handleFilter = (event) => {
       dispatch(getEventsAction(event.target.value));
@@ -43,8 +49,13 @@ function Home() {
             All Events
          </Heading>
          <HStack pb={4} w={690}>
-            <Input bg={"white"} placeholder="🔍 Search for an event..." />
-            <Button w={40} colorScheme={"blue"}>
+            <Input
+               bg={"white"}
+               onChange={(event) => setQuery(event.target.value)}
+               onKeyDown={handleSearch}
+               placeholder="🔍 Search for an event..."
+            />
+            <Button w={40} onClick={handleSearch} colorScheme={"blue"}>
                Search
             </Button>
             <Select bg={"white"} onChange={handleFilter}>
