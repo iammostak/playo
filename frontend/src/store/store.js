@@ -3,9 +3,11 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/auth.reducer";
+import { eventReducer } from "./event/event.reducer";
 
 const rootReducer = combineReducers({
    auth: authReducer,
+   event: eventReducer,
 });
 
 const persistConfig = {
