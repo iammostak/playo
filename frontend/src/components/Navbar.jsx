@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, HStack } from "@chakra-ui/react";
+import { Button, Flex, Heading, HStack, useToast } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutAction } from "../store/auth/auth.actions";
@@ -6,9 +6,17 @@ import { logoutAction } from "../store/auth/auth.actions";
 function Navbar() {
    const { isAuth } = useSelector((store) => store.auth);
    const dispatch = useDispatch();
+   const toast = useToast();
 
    const handleLogout = () => {
       dispatch(logoutAction());
+      toast({
+         title: "You logged out from your account",
+         status: "warning",
+         duration: 3000,
+         isClosable: true,
+         position: "top",
+      });
    };
 
    return (
