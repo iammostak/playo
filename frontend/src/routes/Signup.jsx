@@ -22,6 +22,7 @@ function Signup() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const toast = useToast();
+   const { loading } = useSelector((store) => store.auth);
 
    const handleFromData = (event) => {
       const { name, value } = event.target;
@@ -110,9 +111,10 @@ function Signup() {
             </InputRightElement>
          </InputGroup>
          <Button
-            type="submit"
-            w={"full"}
             mt={3}
+            w={"full"}
+            type="submit"
+            isLoading={loading}
             colorScheme={"blue"}
             fontFamily={"Helvetica"}
             letterSpacing={0.5}
