@@ -24,6 +24,7 @@ const initData = {
 
 function CreateEvent() {
    const { user } = useSelector((store) => store.auth);
+   const { loading } = useSelector((store) => store.event);
    const [formData, setFormData] = useState({
       ...initData,
       organizer: user._id,
@@ -49,6 +50,10 @@ function CreateEvent() {
                duration: 3000,
                isClosable: true,
                position: "top",
+            });
+            setFormData({
+               ...initData,
+               organizer: user._id,
             });
          } else {
             toast({
@@ -91,6 +96,7 @@ function CreateEvent() {
                   mb={3}
                   type="text"
                   name={"title"}
+                  value={formData.title}
                   onChange={handleFromData}
                   placeholder="Give a title to your event"
                />
@@ -100,6 +106,7 @@ function CreateEvent() {
                <Input
                   mb={3}
                   name={"startAt"}
+                  value={formData.startAt}
                   onChange={handleFromData}
                   type="datetime-local"
                   placeholder="Select Date and Time"
@@ -109,7 +116,11 @@ function CreateEvent() {
          <HStack mb={3}>
             <Box w={"full"}>
                <FormLabel>Players limit</FormLabel>
-               <Select name={"playersCount"} onChange={handleFromData}>
+               <Select
+                  name={"playersCount"}
+                  value={formData.playersCount}
+                  onChange={handleFromData}
+               >
                   <option value="">Select limit</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -120,7 +131,11 @@ function CreateEvent() {
             </Box>
             <Box w={"full"}>
                <FormLabel>Games</FormLabel>
-               <Select name={"gameType"} onChange={handleFromData}>
+               <Select
+                  name={"gameType"}
+                  value={formData.gameType}
+                  onChange={handleFromData}
+               >
                   <option value="">Select game</option>
                   <option value="Football">Football</option>
                   <option value="Cricket">Cricket</option>
@@ -133,13 +148,15 @@ function CreateEvent() {
             mb={3}
             type="text"
             name={"description"}
+            value={formData.description}
             onChange={handleFromData}
             placeholder="Add event description"
          />
          <Button
-            type="submit"
-            w={"full"}
             mt={3}
+            w={"full"}
+            type="submit"
+            isLoading={loading}
             colorScheme={"blue"}
             fontFamily={"Helvetica"}
             letterSpacing={0.5}
