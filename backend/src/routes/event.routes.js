@@ -7,16 +7,20 @@ app.get("/", async (req, res) => {
    const { filter } = req.query;
    try {
       if (!filter) {
-         const events = await EventModel.find().populate("organizer");
+         const events = await EventModel.find()
+            .populate("organizer")
+            .populate("accepted")
+            .populate("pending");
          res.send({ events });
       } else {
          let query = filter.toLowerCase().split("");
          query[0] = query[0].toUpperCase();
          query = query.join("");
 
-         const events = await EventModel.find({ gameType: query }).populate(
-            "organizer"
-         );
+         const events = await EventModel.find({ gameType: query })
+            .populate("organizer")
+            .populate("accepted")
+            .populate("pending");
          res.send({ events });
       }
    } catch (err) {
@@ -37,10 +41,58 @@ app.post("/post", async (req, res) => {
 
 app.get("/:id", async (req, res) => {
    const { id } = req.params;
-
    try {
       const event = await EventModel.findById(id).populate("organizer");
       res.send({ event });
+   } catch (err) {
+      res.status(400).send({ message: err });
+   }
+});
+
+app.post("/join", async (req, res) => {
+   const { eventId, userId } = req.body;
+   try {
+      let event = await EventModel.findOne({
+         _id: eventId,
+         pending: { $all: [userId] },
+      });
+
+      if (!event) {
+         event = await EventModel.updateOne(
+            { _id: eventId },
+            { $push: { pending: userId } }
+         );
+
+         event = await EventModel.findById(eventId);
+         res.send({ event });
+      }
+   } catch (err) {
+      res.status(400).send({ message: err });
+   }
+});
+
+app.post("/accept", async (req, res) => {
+   const { eventId, userId } = req.body;
+   try {
+      let event = await EventModel.findOne({
+         _id: eventId,
+         pending: { $all: [userId] },
+      });
+
+      if (event) {
+         event = await EventModel.updateOne(
+            { _id: eventId },
+            { $pull: { pending: { $all: [userId] } } }
+         );
+
+         event = await EventModel.updateOne(
+            { _id: eventId },
+            { $push: { accepted: userId } }
+         );
+
+         event = await EventModel.findById(eventId);
+         res.send({ event });
+      }
    } catch (err) {
       res.status(400).send({ message: err });
    }
