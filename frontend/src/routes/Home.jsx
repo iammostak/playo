@@ -52,7 +52,11 @@ function Home() {
             <Input
                bg={"white"}
                onChange={(event) => setQuery(event.target.value)}
-               onKeyDown={handleSearch}
+               onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                     handleSearch();
+                  }
+               }}
                placeholder="🔍 Search for an event..."
             />
             <Button w={40} onClick={handleSearch} colorScheme={"blue"}>
