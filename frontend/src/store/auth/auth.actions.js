@@ -39,6 +39,4 @@ export const loginAction = (data) => async (dispatch) => {
    }
 };
 
-export const logoutAction = () => {
-   return { type: AUTH_LOGOUT };
-};
+export const logoutAction = () => ({ type: AUTH_LOGOUT });
