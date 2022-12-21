@@ -18,7 +18,7 @@ const initData = {
    title: "",
    description: "",
    startAt: "",
-   playersCount: "",
+   playerLimit: "",
    gameType: "",
 };
 
@@ -35,7 +35,7 @@ function CreateEvent() {
    const handleFromData = (event) => {
       const { name, value } = event.target;
       setFormData(
-         name === "playersCount"
+         name === "playerLimit"
             ? { ...formData, [name]: Number(value) }
             : { ...formData, [name]: value }
       );
@@ -115,10 +115,10 @@ function CreateEvent() {
          </HStack>
          <HStack mb={3}>
             <Box w={"full"}>
-               <FormLabel>Players limit</FormLabel>
+               <FormLabel>Player limit</FormLabel>
                <Select
-                  name={"playersCount"}
-                  value={formData.playersCount}
+                  name={"playerLimit"}
+                  value={formData.playerLimit}
                   onChange={handleFromData}
                >
                   <option value="">Select limit</option>
@@ -165,7 +165,7 @@ function CreateEvent() {
                !formData.title ||
                !formData.description ||
                !formData.startAt ||
-               !formData.playersCount ||
+               !formData.playerLimit ||
                !formData.organizer ||
                !formData.gameType
             }

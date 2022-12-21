@@ -59,7 +59,7 @@ function EventDetails() {
             </Text>
             <HStack>
                <Button size={"md"} colorScheme={"blue"} borderRadius={"3xl"}>
-                  00 / {event.playersCount}
+                  00 / {event.playerLimit}
                </Button>
                <Button
                   size={"md"}

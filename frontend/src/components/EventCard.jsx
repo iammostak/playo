@@ -73,7 +73,7 @@ function EventCard(event) {
          </HStack>
          <VStack>
             <Tag size={"md"} bg={"green.50"} color={"green.500"}>
-               00 / {event.playersCount}
+               00 / {event.playerLimit}
             </Tag>
             <Button size="md" colorScheme={"blue"} borderRadius={"3xl"}>
                Join event
