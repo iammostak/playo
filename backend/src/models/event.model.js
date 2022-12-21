@@ -5,6 +5,7 @@ const EventSchema = new Schema({
    description: { type: String, required: true },
    startAt: { type: String, required: true },
    playersCount: { type: Number, required: true },
+   gameType: { type: String, required: true },
    organizer: { type: Schema.Types.ObjectId, ref: "user" },
 });
 
