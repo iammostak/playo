@@ -42,7 +42,10 @@ app.post("/post", async (req, res) => {
 app.get("/:id", async (req, res) => {
    const { id } = req.params;
    try {
-      const event = await EventModel.findById(id).populate("organizer");
+      const event = await EventModel.findById(id)
+         .populate("organizer")
+         .populate("accepted")
+         .populate("pending");
       res.send({ event });
    } catch (err) {
       res.status(400).send({ message: err });
@@ -62,10 +65,13 @@ app.post("/join", async (req, res) => {
             { _id: eventId },
             { $push: { pending: userId } }
          );
-
-         event = await EventModel.findById(eventId);
-         res.send({ event });
       }
+
+      const events = await EventModel.find()
+         .populate("organizer")
+         .populate("accepted")
+         .populate("pending");
+      res.send({ events });
    } catch (err) {
       res.status(400).send({ message: err });
    }
@@ -89,10 +95,13 @@ app.post("/accept", async (req, res) => {
             { _id: eventId },
             { $push: { accepted: userId } }
          );
-
-         event = await EventModel.findById(eventId);
-         res.send({ event });
       }
+
+      const events = await EventModel.find()
+         .populate("organizer")
+         .populate("accepted")
+         .populate("pending");
+      res.send({ events });
    } catch (err) {
       res.status(400).send({ message: err });
    }
