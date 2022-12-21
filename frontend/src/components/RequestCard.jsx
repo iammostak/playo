@@ -133,6 +133,7 @@ function RequestCard(props) {
                variant={"outline"}
                colorScheme={"green"}
                borderRadius={"50%"}
+               disabled={props.accepted.length === props.playerLimit}
                onClick={handleAccept}
             >
                <CheckIcon />

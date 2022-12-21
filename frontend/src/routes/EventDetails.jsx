@@ -25,6 +25,12 @@ function EventDetails() {
    const navigate = useNavigate();
    const toast = useToast();
 
+   const handleIsPresent = () => {
+      let data = event.accepted.filter((item) => item._id === user._id);
+      if (data.length) return true;
+      return false;
+   };
+
    const handleJoin = () => {
       dispatch(joinEventAction({ eventId: event._id, userId: user._id })).then(
          (res) => {
@@ -107,7 +113,11 @@ function EventDetails() {
                   size="md"
                   colorScheme={"blue"}
                   borderRadius={"3xl"}
-                  disabled={event.organizer._id === user._id}
+                  disabled={
+                     event.organizer._id === user._id ||
+                     handleIsPresent() ||
+                     event.accepted.length === event.playerLimit
+                  }
                   onClick={handleJoin}
                >
                   Join event
