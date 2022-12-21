@@ -5,8 +5,8 @@ const app = express.Router();
 
 app.get("/", async (req, res) => {
    try {
-      const event = await EventModel.find().populate("organizer");
-      res.send({ event });
+      const events = await EventModel.find().populate("organizer");
+      res.send({ events });
    } catch (err) {
       res.send({ message: err });
    }
