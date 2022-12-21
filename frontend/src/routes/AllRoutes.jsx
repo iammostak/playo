@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "../private/PrivateRoute";
 import CreateEvent from "./CreateEvent";
+import EventDetails from "./EventDetails";
 import Home from "./Home";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -13,6 +14,14 @@ function AllRoutes() {
             element={
                <PrivateRoute>
                   <Home />
+               </PrivateRoute>
+            }
+         />
+         <Route
+            path="/event/:id"
+            element={
+               <PrivateRoute>
+                  <EventDetails />
                </PrivateRoute>
             }
          />
