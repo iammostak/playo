@@ -39,7 +39,30 @@ function EventCard(event) {
          cursor={"pointer"}
          as={Link}
          to={`/event/${event._id}`}
+         pos={"relative"}
       >
+         {event.expire && (
+            <HStack
+               w={"full"}
+               h={"full"}
+               pos={"absolute"}
+               top={0}
+               left={0}
+               align={"center"}
+               justify={"center"}
+               bg={"blackAlpha.300"}
+               borderRadius={"md"}
+            >
+               <Text
+                  fontWeight={"bold"}
+                  fontSize={"lg"}
+                  letterSpacing={1}
+                  color={"red.500"}
+               >
+                  Request expired
+               </Text>
+            </HStack>
+         )}
          <HStack spacing={4}>
             <Flex
                h={70}
@@ -58,7 +81,7 @@ function EventCard(event) {
                      size={"md"}
                      fontFamily={"Helvetica"}
                      fontWeight={800}
-                     color={"blackAlpha.800"}
+                     color={event.expire ? "blackAlpha.500" : "blackAlpha.800"}
                   >
                      {event.title}
                   </Heading>
@@ -66,7 +89,7 @@ function EventCard(event) {
                      fontFamily={"Helvetica"}
                      fontSize={"sm"}
                      noOfLines={2}
-                     color={"blackAlpha.600"}
+                     color={event.expire ? "blackAlpha.400" : "blackAlpha.600"}
                      textTransform={"capitalize"}
                   >
                      {event.description}

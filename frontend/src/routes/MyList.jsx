@@ -1,10 +1,12 @@
 import { Heading, StackDivider, VStack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import EventCard from "../components/EventCard";
+import useDateTime from "../hooks/useDateTime";
 
 function MyList() {
    const { events } = useSelector((store) => store.event);
    const { user } = useSelector((store) => store.auth);
+   const { time } = useDateTime();
 
    return (
       <VStack
@@ -54,7 +56,11 @@ function MyList() {
                event.pending.map(
                   (player) =>
                      player._id == user._id && (
-                        <EventCard key={event._id} {...event} />
+                        <EventCard
+                           key={event._id}
+                           {...event}
+                           expire={time >= event.startAt}
+                        />
                      )
                )
             )}

@@ -5,10 +5,12 @@ import {
    Heading,
    HStack,
    Tag,
+   Text,
    useToast,
    VStack,
 } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
+import useDateTime from "../hooks/useDateTime";
 import {
    acceptEventAction,
    rejectEventAction,
@@ -17,6 +19,7 @@ import {
 function RequestCard(props) {
    const dispatch = useDispatch();
    const toast = useToast();
+   const { time } = useDateTime();
 
    const handleAccept = () => {
       dispatch(
@@ -76,7 +79,25 @@ function RequestCard(props) {
          bg={"white"}
          justify={"space-between"}
          cursor={"pointer"}
+         pos={"relative"}
       >
+         {time >= props.startAt && (
+            <HStack
+               w={"full"}
+               h={"full"}
+               pos={"absolute"}
+               top={0}
+               left={0}
+               align={"center"}
+               justify={"center"}
+               bg={"blackAlpha.300"}
+               borderRadius={"md"}
+            >
+               <Text fontWeight={"bold"} letterSpacing={1} color={"red.500"}>
+                  Request expired
+               </Text>
+            </HStack>
+         )}
          <HStack spacing={4}>
             <Flex
                h={50}
@@ -95,7 +116,11 @@ function RequestCard(props) {
                      size={"md"}
                      fontFamily={"Helvetica"}
                      fontWeight={800}
-                     color={"blackAlpha.800"}
+                     color={
+                        time >= props.startAt
+                           ? "blackAlpha.700"
+                           : "blackAlpha.800"
+                     }
                   >
                      @{props.username}
                   </Heading>
@@ -123,6 +148,7 @@ function RequestCard(props) {
                variant={"outline"}
                colorScheme={"red"}
                borderRadius={"50%"}
+               disabled={time >= props.startAt}
                onClick={handleReject}
             >
                <CloseIcon />
@@ -133,7 +159,10 @@ function RequestCard(props) {
                variant={"outline"}
                colorScheme={"green"}
                borderRadius={"50%"}
-               disabled={props.accepted.length === props.playerLimit}
+               disabled={
+                  time >= props.startAt ||
+                  props.accepted.length === props.playerLimit
+               }
                onClick={handleAccept}
             >
                <CheckIcon />
