@@ -25,7 +25,7 @@ function MyList() {
                borderBottom={"1px solid"}
                borderColor={"blackAlpha.100"}
             >
-               Accepted
+               Joined events
             </Heading>
             {events.map((event) =>
                event.accepted.map(
