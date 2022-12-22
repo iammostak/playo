@@ -16,13 +16,13 @@ function EventCard(event) {
    const { time } = useDateTime();
 
    const handleIsPresent = () => {
-      let data = event.accepted.filter((item) => item._id === user._id);
+      let data = event.accepted?.filter((item) => item._id === user._id);
       if (data.length) return true;
       return false;
    };
 
    const handleIsPending = () => {
-      let data = event.pending.filter((item) => item._id === user._id);
+      let data = event.pending?.filter((item) => item._id === user._id);
       if (data.length) return true;
       return false;
    };
@@ -113,9 +113,9 @@ function EventCard(event) {
          </HStack>
          <VStack>
             <Tag size={"md"} bg={"green.50"} color={"green.500"}>
-               {event.accepted.length < 10
-                  ? "0" + event.accepted.length
-                  : event.accepted.length}{" "}
+               {event.accepted?.length < 10
+                  ? "0" + event.accepted?.length
+                  : event.accepted?.length}{" "}
                / {event.playerLimit}
             </Tag>
             <Button
@@ -125,7 +125,7 @@ function EventCard(event) {
                disabled={
                   event.organizer._id === user._id ||
                   handleIsPresent() ||
-                  event.accepted.length === event.playerLimit ||
+                  event.accepted?.length === event.playerLimit ||
                   handleIsPending() ||
                   time >= event.startAt
                }
@@ -138,7 +138,7 @@ function EventCard(event) {
                   ? "Joined"
                   : event.organizer._id === user._id
                   ? "Organizer"
-                  : event.accepted.length === event.playerLimit
+                  : event.accepted?.length === event.playerLimit
                   ? "Event full"
                   : "Join event"}
             </Button>

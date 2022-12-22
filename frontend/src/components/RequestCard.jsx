@@ -161,7 +161,7 @@ function RequestCard(props) {
                borderRadius={"50%"}
                disabled={
                   time >= props.startAt ||
-                  props.accepted.length === props.playerLimit
+                  props.accepted?.length === props.playerLimit
                }
                onClick={handleAccept}
             >

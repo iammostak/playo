@@ -28,13 +28,13 @@ function EventDetails() {
    const { time } = useDateTime();
 
    const handleIsPresent = () => {
-      let data = event.accepted.filter((item) => item._id === user._id);
+      let data = event.accepted?.filter((item) => item._id === user._id);
       if (data.length) return true;
       return false;
    };
 
    const handleIsPending = () => {
-      let data = event.pending.filter((item) => item._id === user._id);
+      let data = event.pending?.filter((item) => item._id === user._id);
       if (data.length) return true;
       return false;
    };
@@ -135,9 +135,9 @@ function EventDetails() {
             )}
             <HStack>
                <Button size={"md"} colorScheme={"blue"} borderRadius={"3xl"}>
-                  {event.accepted.length < 10
-                     ? "0" + event.accepted.length
-                     : event.accepted.length}{" "}
+                  {event.accepted?.length < 10
+                     ? "0" + event.accepted?.length
+                     : event.accepted?.length}{" "}
                   / {event.playerLimit}
                </Button>
                <Button
@@ -157,7 +157,7 @@ function EventDetails() {
                   disabled={
                      event.organizer._id === user._id ||
                      handleIsPresent() ||
-                     event.accepted.length === event.playerLimit ||
+                     event.accepted?.length === event.playerLimit ||
                      handleIsPending() ||
                      time >= event.startAt
                   }
@@ -171,7 +171,7 @@ function EventDetails() {
                      ? "Joined"
                      : event.organizer._id === user._id
                      ? "Organizer"
-                     : event.accepted.length === event.playerLimit
+                     : event.accepted?.length === event.playerLimit
                      ? "Event full"
                      : "Join event"}
                </Button>
