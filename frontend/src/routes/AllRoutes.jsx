@@ -4,6 +4,7 @@ import CreateEvent from "./CreateEvent";
 import EventDetails from "./EventDetails";
 import Home from "./Home";
 import Login from "./Login";
+import MyList from "./MyList";
 import Requests from "./Requests";
 import Signup from "./Signup";
 
@@ -39,6 +40,14 @@ function AllRoutes() {
             element={
                <PrivateRoute>
                   <Requests />
+               </PrivateRoute>
+            }
+         />
+         <Route
+            path="/mylist"
+            element={
+               <PrivateRoute>
+                  <MyList />
                </PrivateRoute>
             }
          />
