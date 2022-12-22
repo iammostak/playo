@@ -12,6 +12,7 @@ import {
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import useDateTime from "../hooks/useDateTime";
 import {
    getByIdEventAction,
    joinEventAction,
@@ -24,6 +25,7 @@ function EventDetails() {
    const { id } = useParams();
    const navigate = useNavigate();
    const toast = useToast();
+   const { time } = useDateTime();
 
    const handleIsPresent = () => {
       let data = event.accepted.filter((item) => item._id === user._id);
@@ -151,11 +153,14 @@ function EventDetails() {
                      event.organizer._id === user._id ||
                      handleIsPresent() ||
                      event.accepted.length === event.playerLimit ||
-                     handleIsPending()
+                     handleIsPending() ||
+                     time >= event.startAt
                   }
                   onClick={handleJoin}
                >
-                  {handleIsPending()
+                  {time >= event.startAt
+                     ? "Started"
+                     : handleIsPending()
                      ? "Pending"
                      : handleIsPresent()
                      ? "Joined"

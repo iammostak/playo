@@ -9,9 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import useDateTime from "../hooks/useDateTime";
 
 function EventCard(event) {
    const { user } = useSelector((store) => store.auth);
+   const { time } = useDateTime();
 
    const handleIsPresent = () => {
       let data = event.accepted.filter((item) => item._id === user._id);
@@ -101,10 +103,13 @@ function EventCard(event) {
                   event.organizer._id === user._id ||
                   handleIsPresent() ||
                   event.accepted.length === event.playerLimit ||
-                  handleIsPending()
+                  handleIsPending() ||
+                  time >= event.startAt
                }
             >
-               {handleIsPending()
+               {time >= event.startAt
+                  ? "Started"
+                  : handleIsPending()
                   ? "Pending"
                   : handleIsPresent()
                   ? "Joined"
