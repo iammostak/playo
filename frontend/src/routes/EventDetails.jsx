@@ -31,6 +31,12 @@ function EventDetails() {
       return false;
    };
 
+   const handleIsPending = () => {
+      let data = event.pending.filter((item) => item._id === user._id);
+      if (data.length) return true;
+      return false;
+   };
+
    const handleJoin = () => {
       dispatch(joinEventAction({ eventId: event._id, userId: user._id })).then(
          (res) => {
@@ -92,6 +98,34 @@ function EventDetails() {
             <Text w={"70%"} align={"center"}>
                {event.description}
             </Text>
+            {(handleIsPresent() || event.organizer._id === user._id) && (
+               <>
+                  <Heading
+                     pb={4}
+                     size={"sm"}
+                     align={"center"}
+                     color={"blue.500"}
+                     fontFamily={"Helvetica"}
+                     fontWeight={800}
+                     letterSpacing={0.5}
+                     borderBottom={"1px solid"}
+                     borderColor={"blackAlpha.100"}
+                  >
+                     All Participants
+                  </Heading>
+                  <HStack w={"50%"} align={"center"} justify={"center"}>
+                     {event.accepted.map((item, index) => (
+                        <Tag
+                           size={"md"}
+                           bg={index % 2 === 0 ? "blue.50" : "orange.50"}
+                           color={index % 2 === 0 ? "blue.500" : "orange.500"}
+                        >
+                           @{item.username}
+                        </Tag>
+                     ))}
+                  </HStack>
+               </>
+            )}
             <HStack>
                <Button size={"md"} colorScheme={"blue"} borderRadius={"3xl"}>
                   {event.accepted.length < 10
@@ -110,17 +144,26 @@ function EventDetails() {
                   <ArrowBackIcon />
                </Button>
                <Button
-                  size="md"
+                  w={110}
                   colorScheme={"blue"}
                   borderRadius={"3xl"}
                   disabled={
                      event.organizer._id === user._id ||
                      handleIsPresent() ||
-                     event.accepted.length === event.playerLimit
+                     event.accepted.length === event.playerLimit ||
+                     handleIsPending()
                   }
                   onClick={handleJoin}
                >
-                  Join event
+                  {handleIsPending()
+                     ? "Pending"
+                     : handleIsPresent()
+                     ? "Joined"
+                     : event.organizer._id === user._id
+                     ? "Organizer"
+                     : event.accepted.length === event.playerLimit
+                     ? "Event full"
+                     : "Join event"}
                </Button>
             </HStack>
          </VStack>

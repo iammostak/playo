@@ -24,7 +24,7 @@ function RequestCard(props) {
       ).then((res) => {
          if (res) {
             toast({
-               title: "Joining request accepted",
+               title: "Joining request accepted!",
                status: "success",
                duration: 3000,
                isClosable: true,
@@ -48,8 +48,8 @@ function RequestCard(props) {
       ).then((res) => {
          if (res) {
             toast({
-               title: "Joining request rejected",
-               status: "success",
+               title: "Joining request rejected!",
+               status: "warning",
                duration: 3000,
                isClosable: true,
                position: "top",

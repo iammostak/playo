@@ -13,6 +13,18 @@ import { Link } from "react-router-dom";
 function EventCard(event) {
    const { user } = useSelector((store) => store.auth);
 
+   const handleIsPresent = () => {
+      let data = event.accepted.filter((item) => item._id === user._id);
+      if (data.length) return true;
+      return false;
+   };
+
+   const handleIsPending = () => {
+      let data = event.pending.filter((item) => item._id === user._id);
+      if (data.length) return true;
+      return false;
+   };
+
    return (
       <HStack
          px={7}
@@ -82,12 +94,25 @@ function EventCard(event) {
                / {event.playerLimit}
             </Tag>
             <Button
-               size="md"
+               w={110}
                colorScheme={"blue"}
                borderRadius={"3xl"}
-               disabled={event.organizer._id === user._id}
+               disabled={
+                  event.organizer._id === user._id ||
+                  handleIsPresent() ||
+                  event.accepted.length === event.playerLimit ||
+                  handleIsPending()
+               }
             >
-               Join event
+               {handleIsPending()
+                  ? "Pending"
+                  : handleIsPresent()
+                  ? "Joined"
+                  : event.organizer._id === user._id
+                  ? "Organizer"
+                  : event.accepted.length === event.playerLimit
+                  ? "Event full"
+                  : "Join event"}
             </Button>
          </VStack>
       </HStack>
