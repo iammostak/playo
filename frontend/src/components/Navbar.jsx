@@ -1,5 +1,12 @@
-import { EmailIcon } from "@chakra-ui/icons";
-import { Button, Flex, Heading, HStack, useToast } from "@chakra-ui/react";
+import { AddIcon, AtSignIcon, EmailIcon } from "@chakra-ui/icons";
+import {
+   border,
+   Button,
+   Flex,
+   Heading,
+   HStack,
+   useToast,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutAction } from "../store/auth/auth.actions";
@@ -54,6 +61,15 @@ function Navbar() {
                </>
             ) : (
                <>
+                  <Button
+                     as={NavLink}
+                     to="/mylist"
+                     variant={"outline"}
+                     borderRadius={"3xl"}
+                     leftIcon={<AtSignIcon />}
+                  >
+                     My List
+                  </Button>
                   <Button
                      as={NavLink}
                      to="/requests"
