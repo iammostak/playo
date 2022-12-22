@@ -97,7 +97,7 @@ function EventDetails() {
                   {event.gameType}
                </Tag>
             </HStack>
-            <Text w={"70%"} align={"center"}>
+            <Text w={760} align={"center"}>
                {event.description}
             </Text>
             {(handleIsPresent() || event.organizer._id === user._id) && (
@@ -115,7 +115,12 @@ function EventDetails() {
                   >
                      All Participants
                   </Heading>
-                  <HStack w={"50%"} align={"center"} justify={"center"}>
+                  <HStack
+                     w={600}
+                     flexWrap={"wrap"}
+                     align={"center"}
+                     justify={"center"}
+                  >
                      {event.accepted.map((item, index) => (
                         <Tag
                            size={"md"}
